@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>وزارة العدل | دز سيتي</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root{
+--bg:#0d1117;
+--card:#161b22;
+--gold:#d4af37;
+--border:#30363d;
+--text:#e6edf3;
+}
+
+*{box-sizing:border-box;}
+body{
+margin:0;
+font-family:Tahoma;
+background:var(--bg);
+color:var(--text);
+display:flex;
+min-height:100vh;
+transition:.3s;
+}
+
+/* Sidebar */
+.sidebar{
+width:260px;
+background:var(--card);
+border-left:1px solid var(--border);
+padding-top:20px;
+}
+.sidebar h2{
+text-align:center;
+color:var(--gold);
+margin-bottom:30px;
+font-size:22px;
+}
+
+/* Navigation */
+.nav-item{
+padding:15px 20px;
+cursor:pointer;
+transition:all .3s ease;
+border-right:4px solid transparent;
+display:flex;
+align-items:center;
+gap:10px;
+}
+.nav-item i{
+transition:all .3s ease;
+}
+.nav-item:hover{
+background:#21262d;
+color:var(--gold);
+}
+.nav-item:hover i{
+transform:scale(1.2) rotate(5deg);
+color:var(--gold);
+}
+.nav-item.active{
+background:#21262d;
+border-right-color:var(--gold);
+color:var(--gold);
+}
+
+/* Main */
+.main{
+flex:1;
+padding:30px;
+position:relative;
+overflow:hidden;
+}
+
+/* Form */
+.form-box{
+background:var(--card);
+padding:25px;
+border-radius:12px;
+border:1px solid var(--border);
+max-width:750px;
+margin:auto;
+display:none;
+opacity:0;
+transform:translateY(20px);
+transition:all .4s ease;
+}
+.form-box.active{
+display:block;
+opacity:1;
+transform:translateY(0);
+}
+
+h1{
+color:var(--gold);
+display:flex;
+align-items:center;
+gap:10px;
+}
+h1 i{
+transition:.3s;
+}
+h1:hover i{
+transform:rotate(-10deg) scale(1.1);
+}
+
+/* Inputs */
+input,textarea,select{
+width:100%;
+padding:12px;
+margin-top:10px;
+background:#0d1117;
+border:1px solid var(--border);
+color:white;
+border-radius:6px;
+transition:.3s;
+}
+input:focus,textarea:focus,select:focus{
+border-color:var(--gold);
+box-shadow:0 0 8px rgba(212,175,55,.5);
+outline:none;
+}
+
+/* Button */
+button{
+background:var(--gold);
+border:none;
+padding:12px;
+margin-top:15px;
+font-weight:bold;
+cursor:pointer;
+border-radius:6px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:8px;
+transition:.3s;
+}
+button:hover{
+transform:translateY(-3px);
+box-shadow:0 6px 15px rgba(212,175,55,.4);
+}
+button:active{
+transform:scale(.96);
+}
+
+/* Responsive */
+@media(max-width:900px){
+body{flex-direction:column;}
+.sidebar{
+width:100%;
+display:flex;
+overflow-x:auto;
+}
+.nav-item{
+border-right:none;
+border-bottom:4px solid transparent;
+white-space:nowrap;
+}
+.nav-item.active{
+border-bottom-color:var(--gold);
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+<h2><i class="fa-solid fa-scale-balanced"></i> وزارة العدل</h2>
+
+<div class="nav-item active" onclick="showForm('complaint')">
+<i class="fa-solid fa-envelope"></i> الشكاوى
+</div>
+
+<div class="nav-item" onclick="showForm('hiring')">
+<i class="fa-solid fa-user-plus"></i> التوظيف
+</div>
+
+<div class="nav-item" onclick="showForm('permit')">
+<i class="fa-solid fa-gavel"></i> التصاريح والمداهمات
+</div>
+
+<div class="nav-item" onclick="showForm('budget')">
+<i class="fa-solid fa-sack-dollar"></i> الميزانية
+</div>
+
+<div class="nav-item" onclick="showForm('newDepartment')">
+<i class="fa-solid fa-building"></i> طلب فتح قسم
+</div>
+</div>
+
+<div class="main">
+
+<div id="complaint" class="form-box active">
+<h1><i class="fa-solid fa-envelope-open-text"></i> رفع شكوى</h1>
+<input type="text" placeholder="المدعي">
+<input type="text" placeholder="المدعى عليه">
+<textarea placeholder="تفاصيل الشكوى"></textarea>
+<input type="file" accept=".pdf,image/*" multiple>
+<button onclick="submitForm('complaint',this)">
+<i class="fa-solid fa-paper-plane"></i> إرسال
+</button>
+</div>
+
+<div id="hiring" class="form-box">
+<h1><i class="fa-solid fa-user-plus"></i> طلب توظيف</h1>
+<input type="text" placeholder="الاسم">
+<input type="number" placeholder="العمر">
+<textarea placeholder="الخبرات"></textarea>
+<input type="file" accept=".pdf,image/*" multiple>
+<button onclick="submitForm('hiring',this)">
+<i class="fa-solid fa-paper-plane"></i> إرسال
+</button>
+</div>
+
+<div id="permit" class="form-box">
+<h1><i class="fa-solid fa-gavel"></i> طلب تصريح / مداهمة</h1>
+<select>
+<option>أمر مداهمة</option>
+<option>أمر تفتيش</option>
+<option>تصريح سلاح</option>
+</select>
+<input type="text" placeholder="المستهدف">
+<textarea placeholder="الأسباب"></textarea>
+<input type="file" accept=".pdf,image/*" multiple>
+<button onclick="submitForm('permit',this)">
+<i class="fa-solid fa-paper-plane"></i> إرسال
+</button>
+</div>
+
+<div id="budget" class="form-box">
+<h1><i class="fa-solid fa-coins"></i> طلب ميزانية</h1>
+<input type="text" placeholder="القسم">
+<input type="number" placeholder="المبلغ">
+<textarea placeholder="تفاصيل الطلب"></textarea>
+<input type="file" accept=".pdf,image/*" multiple>
+<button onclick="submitForm('budget',this)">
+<i class="fa-solid fa-paper-plane"></i> إرسال
+</button>
+</div>
+
+<div id="newDepartment" class="form-box">
+<h1><i class="fa-solid fa-building"></i> طلب فتح قسم </h1>
+<input type="text" placeholder="اسم القسم">
+<textarea placeholder="وصف القسم"></textarea>
+<input type="file" accept=".pdf,image/*" multiple>
+<button onclick="submitForm('newDepartment',this)">
+<i class="fa-solid fa-paper-plane"></i> إرسال
+</button>
+</div>
+
+</div>
+
+<script>
+function showForm(id){
+document.querySelectorAll('.form-box').forEach(f=>f.classList.remove('active'));
+document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+event.target.closest('.nav-item').classList.add('active');
+}
+
+const webhooks={
+complaint:"https://discord.com/api/webhooks/1476065639088132137/b-5--MPgbbqeNn720fBT9CBQaYLTWrqZsSijx_nEN5tt13gfGwXog852Rk9vxSNex2fG",
+hiring:"https://discord.com/api/webhooks/1476065896442232968/kZHqMvhbKnmhe19iMhbqYN3fFtLZ2qLNlYlumw0vTw5LH5ToSFeRm-60DEaCd05b1B6t",
+permit:"https://discord.com/api/webhooks/1476066286785007818/ZqkvSqpRM13RaG2HJDAuQ1Dr5z1UaTEXFa0iFEhgyrH8UxqBi0FcjOIt_STmZ0ZlhIaP",
+budget:"https://discord.com/api/webhooks/1476066596509192392/LvDvkLAfoZ52hZeihYLZ3c72nmDJMXsc9HcPh5DG3m53GK-6H5of_ObPkqoBJHy9R3tY",
+newDepartment:"https://discord.com/api/webhooks/1476066801816440955/6D5qjBQrxO-8X8PcH758qsvtc6GkmJ5i_oY_J6Nw256Gc2ReFu5PdycSPqjLt7WhxTQP"
+};
+
+function submitForm(type,btn){
+let box=btn.parentElement;
+let inputs=box.querySelectorAll("input[type=text],input[type=number]");
+let textarea=box.querySelector("textarea");
+let select=box.querySelector("select");
+let files=box.querySelector("input[type=file]").files;
+
+for(let i=0;i<inputs.length;i++){
+if(!inputs[i].value){alert("الرجاء تعبئة جميع الحقول");return;}
+}
+if(textarea && !textarea.value){alert("الرجاء تعبئة جميع الحقول");return;}
+if(!confirm("تأكيد الإرسال؟")) return;
+
+let fields=[];
+inputs.forEach(i=>fields.push({name:i.placeholder,value:i.value}));
+if(select) fields.push({name:"النوع",value:select.value});
+if(textarea) fields.push({name:"التفاصيل",value:textarea.value});
+
+let embed={
+title:box.querySelector("h1").innerText,
+color:0xD4AF37,
+fields:fields,
+footer:{text:"وزارة العدل | دز سيتي"},
+timestamp:new Date()
+};
+
+/* 🔥 إذا رفع المستخدم صورة، نعرضها داخل الـ Embed */
+if(files.length > 0){
+let firstFile = files[0];
+if(firstFile.type.startsWith("image/")){
+embed.image = { url: "attachment://" + firstFile.name };
+}
+}
+
+let formData = new FormData();
+formData.append("payload_json", JSON.stringify({embeds:[embed]}));
+
+for(let i=0;i<files.length;i++){
+formData.append(`file${i}`,files[i]);
+}
+
+fetch(webhooks[type],{
+method:"POST",
+body:formData
+})
+.then(res=>{
+if(res.ok){
+alert("تم الإرسال بنجاح");
+box.querySelectorAll("input,textarea").forEach(f=>f.value="");
+}
+else alert("حدث خطأ");
+});
+}
+</script>
+
+</body>
+</html>
